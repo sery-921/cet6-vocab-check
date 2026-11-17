@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <title>六级词汇通关 · 测试版</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">C6</span><span>六级词汇通关 <small>PUBLIC BETA</small></span></div>
+      <button id="backupButton" class="text-button" type="button">备份进度 ↗</button>
+    </header>
+    <main>
+      <section class="hero">
+        <div><p class="eyebrow">CET-6 · 2016 考纲</p><h1>把不认识的词，<br><em>一遍遍找出来。</em></h1><p class="lede">先用最轻的方式过一遍带 ★ 的六级词。你判断认识与否，网站记住结果；不认识的词可以集中重练。</p></div>
+        <div class="hero-side"><div class="hero-number" id="heroTotal">—</div><div>条带 ★ 词条</div><span class="hero-foot">来源：全国大学英语四、六级考试大纲（2016年修订版）</span></div>
+      </section>
+      <section class="stats" aria-label="学习进度">
+        <div><span>已判断</span><strong id="reviewedCount">0</strong></div><div><button id="knownStat" class="stat-inner" type="button" aria-label="查看认识的词"><span>认识 ↗</span><strong id="knownCount">0</strong></button></div><div><button id="unknownStat" class="stat-inner" type="button" aria-label="查看需重练的词"><span>需重练 ↗</span><strong id="unknownCount">0</strong></button></div><div class="progress-box"><span>通关进度</span><strong id="progressPercent">0%</strong><div class="track"><div id="progressFill"></div></div></div>
+      </section>
+      <nav class="tabs" aria-label="功能切换"><button class="active" data-tab="practice" type="button">通关练习</button><button data-tab="library" type="button">词库检索</button><button data-tab="about" type="button">数据说明</button></nav>
+      <section id="practicePanel" class="panel practice-panel">
+        <div class="panel-heading"><div><p class="eyebrow">PRACTICE</p><h2 id="practiceTitle">今日继续</h2></div><div class="mode-switch"><button data-mode="new" class="active" type="button">未判断</button><button data-mode="unknown" type="button">重练</button></div></div>
+        <div class="card" id="wordCard"><div class="card-top"><span id="cardMode">未判断</span><span id="cardIndex">—</span></div><div class="word" id="currentWord">载入中…</div><div id="wordForms" class="forms"></div><p class="self-check">先在心里说出含义或用法，再给自己判定。</p><div id="exampleBox" class="example hidden"></div><div class="card-actions"><button id="unknownButton" class="secondary" type="button">不认识 · 加入重练</button><button id="knownButton" class="primary" type="button">认识 · 下一词 →</button></div></div>
+        <div class="practice-footer"><p class="hint">键盘：← 不认识　→ 认识。判断会自动保存在此浏览器。</p><button id="undoButton" class="text-button" type="button" disabled>↶ 撤销上次判断</button></div>
+      </section>
+      <section id="libraryPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">LIBRARY</p><h2>查找考纲词</h2></div><span id="resultCount" class="count-pill"></span></div><div class="search-row"><input id="searchInput" type="search" placeholder="输入英文单词或词形，例如 transition" autocomplete="off" aria-label="搜索词汇"><select id="statusFilter" aria-label="筛选状态"><option value="all">全部状态</option><option value="new">未判断</option><option value="known">认识</option><option value="unknown">需重练</option></select><select id="exampleFilter" aria-label="筛选真题例句"><option value="all">全部词条</option><option value="with">有真题例句</option></select></div><div id="wordList" class="word-list"></div><div class="list-footer"><button id="moreButton" type="button" class="text-button">显示更多 ↓</button></div></section>
+      <section id="aboutPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">ABOUT THE DATA</p><h2>测试版包含什么</h2></div></div><div class="about-grid"><div><b>考纲词表</b><p>从 2016 版大纲提取带 ★ 的词条行。原表一行可能同时列出派生词或拼写变体，练习卡以该行首词为主词展示。</p></div><div><b>真题对应</b><p>已对 2026 年 6 月第一套的扫描页进行本地 OCR，并从原图核对了 18 条短例句。其余 OCR 候选未核对，不会显示为真题例句；目前不代表历年词频。</p></div><div><b>进度保存</b><p>只存于当前浏览器。可以导出 JSON 备份，换设备时导入；清除浏览器数据前请先备份。</p></div><div><b>释义</b><p>此阶段只做自评，不显示中文释义。</p></div></div><button id="importButton" class="outline-button" type="button">导入进度备份</button><input id="importFile" type="file" accept="application/json,.json" hidden></section>
+    </main>
+    <footer>六级词汇通关 · 测试版 <span>练习进度仅保存在当前浏览器</span></footer>
+  </div>
+  <script src="./data/vocab.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
