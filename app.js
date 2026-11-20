@@ -112,10 +112,20 @@ function openStatus(status) {
   setTab('library');
   $('libraryPanel').scrollIntoView({behavior:'smooth', block:'start'});
 }
+function openExamples() {
+  $('searchInput').value = '';
+  $('statusFilter').value = 'all';
+  $('exampleFilter').value = 'with';
+  pageSize = 40;
+  setTab('library');
+  $('libraryPanel').scrollIntoView({behavior:'smooth', block:'start'});
+}
 function renderLibrary() {
   const q = $('searchInput').value.trim().toLowerCase();
   const filter = $('statusFilter').value;
   const exampleOnly = $('exampleFilter').value === 'with';
+  $('libraryTitle').textContent = exampleOnly ? '已核对的真题例句' : '查找考纲词';
+  $('exampleContext').classList.toggle('hidden', !exampleOnly);
   const exampleFor = w => examples[w.head] || w.forms.map(f => examples[f]).find(Boolean);
   const matches = words.filter(w => (!q || w.forms.some(f => f.toLowerCase().includes(q))) && (filter === 'all' || statusOf(w) === filter) && (!exampleOnly || exampleFor(w)));
   $('resultCount').textContent = `${matches.length} 条结果`;
@@ -167,12 +177,15 @@ async function init() {
     $('wordForms').textContent = '请确认 data/vocab.js 与网页文件位于同一项目中。';
     return;
   }
+  const exampleFor = w => examples[w.head] || w.forms.map(f => examples[f]).find(Boolean);
+  $('exampleCount').textContent = words.filter(exampleFor).length;
   updateStats(); nextWord(); updateUndoButton();
   $('knownButton').addEventListener('click', () => judge('known'));
   $('unknownButton').addEventListener('click', () => judge('unknown'));
   $('undoButton').addEventListener('click', undoJudgment);
   $('knownStat').addEventListener('click', () => openStatus('known'));
   $('unknownStat').addEventListener('click', () => openStatus('unknown'));
+  $('openExamplesButton').addEventListener('click', openExamples);
   document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
   document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => { mode = b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('active', x === b)); $('practiceTitle').textContent = mode === 'new' ? '今日继续' : '再练不认识的词'; nextWord(); }));
   $('searchInput').addEventListener('input', () => {pageSize = 40; renderLibrary();});
