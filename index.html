@@ -11,7 +11,18 @@
   <div class="shell">
     <header class="topbar">
       <div class="brand"><span class="brand-mark">C6</span><span>六级词汇通关 <small>PUBLIC BETA</small></span></div>
-      <button id="backupButton" class="text-button" type="button">备份进度 ↗</button>
+      <div class="top-actions">
+        <details class="backup-help">
+          <summary>保存说明 <span aria-hidden="true">ⓘ</span></summary>
+          <div class="backup-help-content">
+            <strong>温馨提示</strong>
+            <p>每次判断都会自动保存在当前设备的当前浏览器中，无需手动存档，换 Wi-Fi 或移动数据也不影响已保存的记录。</p>
+            <p>但换浏览器或设备不会自动同步进度。另外，请使用普通浏览模式，即，不要选择<strong>无痕模式／隐私浏览模式</strong>。</p>
+            <p>如果需要换浏览器或设备，可以在上一个设备或浏览器点击“备份进度”导出文件，再在新设备或浏览器中点击“数据说明”里的“导入进度备份”。</p>
+          </div>
+        </details>
+        <button id="backupButton" class="text-button" type="button">备份进度 ↗</button>
+      </div>
     </header>
     <main>
       <section class="hero">
