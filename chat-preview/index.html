@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>六级词汇通关 · 聊天关卡试玩</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./topics.css?v=20261121-chat-release">
+  <script src="./topics.js" defer></script>
+  <script src="./progress.js" defer></script>
+  <script src="./topics-page.js?v=20261121-chat-release" defer></script>
+  <script src="./play.js" defer></script>
+</head>
+<body>
+  <main id="topicsView" class="shell hidden">
+    <header class="topbar"><a href="../index.html" class="back">← 返回词汇通关</a><span class="badge">C6 / WORD CHAT</span></header>
+    <section class="intro"><p class="eyebrow">聊天关卡 · 话题列表</p><h1>选一个话题，<br>把词放进故事里。</h1><p>每关 8 个考纲词。先读聊天、点词看义，再做回忆和配对。话题练习记录保存在当前浏览器，可通过通关首页备份。</p></section>
+    <nav class="topic-summary" aria-label="按练习状态筛选话题"><button id="continueFilter" type="button" aria-pressed="false">继续练 <strong id="continueTotal">0</strong></button><button id="unplayedFilter" type="button" aria-pressed="false">未练过 <strong id="unplayedTotal">0</strong></button><button id="completedFilter" type="button" aria-pressed="false">已练过 <strong id="completedTotal">0</strong></button></nav>
+    <p class="demo-switch"><a id="demoToggle" href="./index.html?demo=1">查看分类示例</a><span id="demoNotice" class="hidden">这里展示模拟状态，不写入你的练习记录。</span></p>
+    <section id="continueSection" class="topic-section hidden"><h2>继续练 <small id="continueCount"></small></h2><div id="continueGrid" class="topic-grid"></div></section>
+    <section id="unplayedSection" class="topic-section hidden"><h2>未练过 <small id="unplayedCount"></small></h2><div id="unplayedGrid" class="topic-grid"></div></section>
+    <section id="completedSection" class="topic-section hidden"><h2>已练过 <small id="completedCount"></small></h2><div id="completedGrid" class="topic-grid"></div></section>
+    <footer>“进行中”表示尚未完成四步；完成配对后才标为“已练过”。每张卡片的练习记录按话题独立保存。</footer>
+  </main>
+  <main id="playView" class="shell hidden">
+    <header class="topbar">
+      <a href="./index.html" class="back">← 所有聊天主题</a>
+      <span class="badge">C6 / WORD CHAT</span>
+    </header>
+    <section class="intro">
+      <p class="eyebrow">原创练习 · 聊天关卡</p>
+      <h1 id="topicTitle">聊天关卡</h1>
+      <p>先看聊天猜意思，再点词核对。读完后做两轮回忆。聊天是记忆情境，下方英文句子展示自然用法。</p>
+      <div class="stepbar" aria-label="练习步骤"><span class="active" data-step="0">聊天</span><span data-step="1">速查</span><span data-step="2">回忆</span><span data-step="3">配对</span></div>
+      <p id="saveNotice" class="hidden" role="alert"></p>
+    </section>
+    <section id="chatStep" class="stage">
+      <div class="phone">
+        <div class="phone-head"><span class="avatar" id="topicIcon">组</span><div><strong id="chatName">报告讨论组</strong><small id="chatSubtitle">3 位成员</small></div><span class="dots">•••</span></div>
+        <div class="chat-scroll" id="messages" aria-live="polite"></div>
+        <div class="phone-foot"><button id="nextMessage" class="primary">读下一条消息</button><span id="chatDone" class="hidden">对话已读完，点绿色单词可查看意思</span></div>
+      </div>
+      <aside class="side-card">
+        <p class="eyebrow">这关怎么练</p><h2>先理解情境</h2>
+        <p>中文聊天里嵌入英文词，是帮助联想的记忆方式。真实英语怎么说，点词后会给一条自然英文句子。</p>
+        <div class="meter"><span id="seenCount">已查看 0 个词</span><div><i id="seenBar"></i></div></div>
+        <button id="toLookup" class="primary">继续：词汇速查</button>
+      </aside>
+    </section>
+    <section id="lookupStep" class="stage single hidden"><div class="section-head"><div><p class="eyebrow">02 / 词汇速查</p><h2>刚才的词，再看一眼</h2></div><p>先回想，再点开核对。这里的中文是本段聊天的意思。</p></div><div id="lookupList" class="lookup-list"></div><button id="toRecall" class="primary next">继续：英文回忆</button></section>
+    <section id="recallStep" class="stage single hidden"><div class="section-head"><div><p class="eyebrow">03 / 英文 → 中文</p><h2>看到英文，你能想起来吗？</h2></div><p>先在心里说出意思，再翻卡并诚实选择。试玩结果不会修改通关记录。</p></div><div class="recall-card"><span id="recallProgress" class="eyebrow"></span><strong id="recallWord"></strong><button id="reveal" class="outline">显示本句义</button><p id="recallAnswer" class="answer hidden"></p><div id="recallChoices" class="choices hidden"><button data-grade="remembered">想起来了</button><button data-grade="hesitated">犹豫了</button><button data-grade="forgot">没想起来</button></div></div></section>
+    <section id="matchStep" class="stage single hidden"><div class="section-head"><div><p class="eyebrow">04 / 中英文配对</p><h2>把词与本句义连起来</h2></div><p>先点一个英文，再点对应中文。配错可以继续试。</p></div><p id="matchStatus" class="match-status" aria-live="polite"></p><div class="match-grid"><div id="englishList"></div><div id="chineseList"></div></div><div id="finish" class="finish hidden"><h3>这一关完成了</h3><p id="finishStats"></p><button id="restart" class="outline">重新试玩这一关</button><a href="../index.html">返回词汇通关</a></div></section>
+    <footer>本关为原创练习，不是真题。聊天中的中英混合表达仅用于记忆；点击单词查看自然英文用法。<a href="../index.html">返回词汇通关</a></footer>
+  </main>
+</body>
+</html>

@@ -1786,7 +1786,7 @@ window.CET6_MEANINGS = {
   },
   "escort": {
     "pos": "n./v.",
-    "zh": "护送者；护卫者；护卫；护送"
+    "zh": "护送；陪同；护送者"
   },
   "esteem": {
     "pos": "n./v.",
@@ -2006,7 +2006,7 @@ window.CET6_MEANINGS = {
   },
   "frantic": {
     "pos": "adj.",
-    "zh": "狂乱的；疯狂的"
+    "zh": "慌乱的；发狂的"
   },
   "fraud": {
     "pos": "n.",
@@ -2522,7 +2522,7 @@ window.CET6_MEANINGS = {
   },
   "inventory": {
     "pos": "n./v.",
-    "zh": "详细目录；存货清单；列入详细目录；清点存货"
+    "zh": "库存；物品清单；清点"
   },
   "invert": {
     "pos": "adj./v.",
@@ -3398,7 +3398,7 @@ window.CET6_MEANINGS = {
   },
   "plausible": {
     "pos": "adj.",
-    "zh": "貌似真实的；貌似合理的"
+    "zh": "看似合理的；可信的"
   },
   "plaza": {
     "pos": "n.",
@@ -3822,7 +3822,7 @@ window.CET6_MEANINGS = {
   },
   "retrieve": {
     "pos": "v.",
-    "zh": "取回；挽回；找回猎物"
+    "zh": "取回；检索"
   },
   "retrospect": {
     "pos": "n./v.",
@@ -3898,7 +3898,7 @@ window.CET6_MEANINGS = {
   },
   "safeguard": {
     "pos": "n./v.",
-    "zh": "保卫；保护措施；保卫；保护"
+    "zh": "保护；保障措施"
   },
   "salmon": {
     "pos": "n.",
@@ -4862,7 +4862,7 @@ window.CET6_MEANINGS = {
   },
   "venue": {
     "pos": "n.",
-    "zh": "犯罪地点；审判地"
+    "zh": "活动场地；举办地点"
   },
   "verdict": {
     "pos": "n.",

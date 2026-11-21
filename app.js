@@ -196,7 +196,8 @@ function renderLibrary() {
   $('moreButton').classList.toggle('hidden', matches.length <= pageSize);
 }
 function backup() {
-  const blob = new Blob([JSON.stringify({version:1, exportedAt:new Date().toISOString(), progress}, null, 2)], {type:'application/json'});
+  const chatProgress = window.CET6_CHAT_PROGRESS.read();
+  const blob = new Blob([JSON.stringify({version:1, exportedAt:new Date().toISOString(), progress, chatProgress}, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'cet6-progress.json'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 async function importBackup(file) {
@@ -207,8 +208,14 @@ async function importBackup(file) {
     const valid = new Set(words.map(w => w.head));
     const clean = {};
     for (const [word, value] of Object.entries(data.progress)) if (valid.has(word) && ['known','unknown'].includes(value)) clean[word] = value;
+    let chatCount = null;
+    if (Object.prototype.hasOwnProperty.call(data,'chatProgress')) {
+      if (!data.chatProgress || typeof data.chatProgress !== 'object' || Array.isArray(data.chatProgress)) throw Error('聊天记录格式不符');
+      const chats = window.CET6_CHAT_PROGRESS.write(data.chatProgress);
+      chatCount = Object.keys(chats).length;
+    }
     progress = clean; lastAction = null; try { localStorage.removeItem(UNDO_KEY); } catch {} saveProgress(); updateStats(); nextWord(); updateUndoButton(); renderLibrary();
-    alert(`已导入 ${Object.keys(clean).length} 条进度。`);
+    alert(`已导入 ${Object.keys(clean).length} 条词汇进度。${chatCount === null ? '旧版备份没有聊天记录，现有聊天记录已保留。' : `另导入 ${chatCount} 个聊天话题的记录。`}`);
   } catch { alert('无法导入：请选择本站导出的有效进度 JSON 文件。'); }
   $('importFile').value = '';
 }

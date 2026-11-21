@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f5ef">
   <title>六级词汇通关 · 测试版</title>
-  <link rel="stylesheet" href="./style.css?v=20261121-meanings-full">
+  <link rel="stylesheet" href="./style.css?v=20261121-chat-release">
 </head>
 <body>
   <div class="shell">
@@ -18,7 +18,7 @@
             <strong>温馨提示</strong>
             <p>每次判断都会自动保存在当前设备的当前浏览器中，无需手动存档，换 Wi-Fi 或移动数据也不影响已保存的记录。</p>
             <p>但换浏览器或设备不会自动同步进度。另外，请使用普通浏览模式，即，不要选择<strong>无痕模式／隐私浏览模式</strong>。</p>
-            <p>如果需要换浏览器或设备，可以在上一个设备或浏览器点击“备份进度”导出文件，再在新设备或浏览器中点击“数据说明”里的“导入进度备份”。</p>
+            <p>词汇判断和聊天话题记录都会包含在备份中。换浏览器或设备时，在旧设备点击“备份进度”导出，再在新设备的“数据说明”中导入。</p>
           </div>
         </details>
         <button id="backupButton" class="text-button" type="button">备份进度 ↗</button>
@@ -29,6 +29,7 @@
         <div><p class="eyebrow">CET-6 · 2016 考纲</p><h1>把不认识的词，<br><em>一遍遍找出来。</em></h1><p class="lede">先用最轻的方式过一遍带 ★ 的六级词。你判断认识与否，网站记住结果；不认识的词可以集中重练。</p><button id="openExamplesButton" class="examples-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">✦</span><span><strong>查看真题例句 · 已核对 <span id="exampleCount">—</span> 条</strong><small>2026 年 6 月第一套 · 查看原句与出处</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button><button id="openMeaningsButton" class="examples-entry meanings-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">译</span><span><strong>查看词性与中文释义 · 已收录 <span id="heroMeaningCount">—</span> 条</strong><small>例如 detriment · n. · 损害；不影响筛词进度</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button></div>
         <div class="hero-side"><div class="hero-number" id="heroTotal">—</div><div>条带 ★ 词条</div><span class="hero-foot">来源：全国大学英语四、六级考试大纲（2016年修订版）</span></div>
       </section>
+      <a class="chat-reentry" href="./chat-preview/index.html"><span class="chat-reentry-icon" aria-hidden="true">聊</span><span><strong>聊天关卡试玩 · 两个话题可选</strong><small>小组报告 / 校园展览 · 退出后随时从这里再进入</small></span></a>
       <section class="stats" aria-label="学习进度">
         <div><span>已判断</span><strong id="reviewedCount">0</strong></div><div><button id="knownStat" class="stat-inner" type="button" aria-label="查看认识的词"><span>认识 ↗</span><strong id="knownCount">0</strong></button></div><div><button id="unknownStat" class="stat-inner" type="button" aria-label="查看需重练的词"><span>需重练 ↗</span><strong id="unknownCount">0</strong></button></div><div class="progress-box"><span>通关进度</span><strong id="progressPercent">0%</strong><div class="track"><div id="progressFill"></div></div></div>
       </section>
@@ -45,7 +46,9 @@
     <footer>六级词汇通关 · 测试版 <span>练习进度仅保存在当前浏览器</span></footer>
   </div>
   <script src="./data/vocab.js" defer></script>
-  <script src="./data/meanings.js?v=20261121-meanings-full" defer></script>
-  <script src="./app.js?v=20261121-meanings-full" defer></script>
+  <script src="./data/meanings.js?v=20261121-chat-release" defer></script>
+  <script src="./chat-preview/topics.js" defer></script>
+  <script src="./chat-preview/progress.js" defer></script>
+  <script src="./app.js?v=20261121-chat-release" defer></script>
 </body>
 </html>
