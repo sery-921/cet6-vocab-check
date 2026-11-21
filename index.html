@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f5ef">
   <title>六级词汇通关 · 测试版</title>
-  <link rel="stylesheet" href="./style.css?v=20261120-meanings-preview2">
+  <link rel="stylesheet" href="./style.css?v=20261121-meanings-full">
 </head>
 <body>
   <div class="shell">
@@ -26,7 +26,7 @@
     </header>
     <main>
       <section class="hero">
-        <div><p class="eyebrow">CET-6 · 2016 考纲</p><h1>把不认识的词，<br><em>一遍遍找出来。</em></h1><p class="lede">先用最轻的方式过一遍带 ★ 的六级词。你判断认识与否，网站记住结果；不认识的词可以集中重练。</p><button id="openExamplesButton" class="examples-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">✦</span><span><strong>查看真题例句 · 已核对 <span id="exampleCount">—</span> 条</strong><small>2026 年 6 月第一套 · 查看原句与出处</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button><button id="openMeaningsButton" class="examples-entry meanings-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">译</span><span><strong>查看词性与中文释义 · 试填 <span id="heroMeaningCount">—</span> 条</strong><small>例如 detriment · n. · 损害；不影响筛词进度</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button></div>
+        <div><p class="eyebrow">CET-6 · 2016 考纲</p><h1>把不认识的词，<br><em>一遍遍找出来。</em></h1><p class="lede">先用最轻的方式过一遍带 ★ 的六级词。你判断认识与否，网站记住结果；不认识的词可以集中重练。</p><button id="openExamplesButton" class="examples-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">✦</span><span><strong>查看真题例句 · 已核对 <span id="exampleCount">—</span> 条</strong><small>2026 年 6 月第一套 · 查看原句与出处</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button><button id="openMeaningsButton" class="examples-entry meanings-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">译</span><span><strong>查看词性与中文释义 · 已收录 <span id="heroMeaningCount">—</span> 条</strong><small>例如 detriment · n. · 损害；不影响筛词进度</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button></div>
         <div class="hero-side"><div class="hero-number" id="heroTotal">—</div><div>条带 ★ 词条</div><span class="hero-foot">来源：全国大学英语四、六级考试大纲（2016年修订版）</span></div>
       </section>
       <section class="stats" aria-label="学习进度">
@@ -39,13 +39,13 @@
         <div id="reviewFeedback" class="review-feedback hidden" role="status" aria-live="polite"></div>
         <div class="practice-footer"><p class="hint">键盘：← 不认识　→ 认识。判断会自动保存在此浏览器；判断后显示刚才那个词的释义。</p><button id="undoButton" class="text-button" type="button" disabled>↶ 撤销上次判断</button></div>
       </section>
-      <section id="libraryPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">LIBRARY</p><h2 id="libraryTitle">查找考纲词</h2></div><span id="resultCount" class="count-pill"></span></div><p id="exampleContext" class="example-context hidden">以下为 2026 年 6 月第一套中已核对的短例句，附原卷出处；目前不代表历年词频。</p><p id="meaningContext" class="meaning-context">释义在判断后显示：有真题的词区分“常见义”和“本句义”；未填的词标注“释义待补充”。</p><div class="search-row"><input id="searchInput" type="search" placeholder="输入英文单词或词形，例如 transition" autocomplete="off" aria-label="搜索词汇"><select id="statusFilter" aria-label="筛选状态"><option value="all">全部状态</option><option value="new">未判断</option><option value="known">认识</option><option value="unknown">需重练</option></select><select id="exampleFilter" aria-label="筛选真题例句"><option value="all">全部词条</option><option value="with">有真题例句</option></select><select id="meaningFilter" aria-label="筛选已填释义"><option value="all">全部释义状态</option><option value="with">有试填释义</option></select></div><div id="wordList" class="word-list"></div><div class="list-footer"><button id="moreButton" type="button" class="text-button">显示更多 ↓</button></div></section>
-      <section id="aboutPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">ABOUT THE DATA</p><h2>测试版包含什么</h2></div></div><div class="about-grid"><div><b>考纲词表</b><p>从 2016 版大纲提取带 ★ 的词条行。原表一行可能同时列出派生词或拼写变体，练习卡以该行首词为主词展示。</p></div><div><b>真题对应</b><p>已对 2026 年 6 月第一套的扫描页进行本地 OCR，并从原图核对了 18 条短例句。其余 OCR 候选未核对，不会显示为真题例句；目前不代表历年词频。</p></div><div><b>进度保存</b><p>只存于当前浏览器。可以导出 JSON 备份，换设备时导入；清除浏览器数据前请先备份。</p></div><div><b>释义</b><p>本地预览先试填 <span id="meaningCount">—</span> 条考纲主词的常见义，其中 18 条另标真题中实际词形的句中义。判断后显示释义；未填的词明确标注“释义待补充”。词性采用 n.、v.、adj. 等缩写。</p></div></div><button id="importButton" class="outline-button" type="button">导入进度备份</button><input id="importFile" type="file" accept="application/json,.json" hidden></section>
+      <section id="libraryPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">LIBRARY</p><h2 id="libraryTitle">查找考纲词</h2></div><span id="resultCount" class="count-pill"></span></div><p id="exampleContext" class="example-context hidden">以下为 2026 年 6 月第一套中已核对的短例句，附原卷出处；目前不代表历年词频。</p><p id="meaningContext" class="meaning-context">释义在判断后显示：有真题的词区分“常见义”和“本句义”；自动匹配释义可在后续校对。</p><div class="search-row"><input id="searchInput" type="search" placeholder="输入英文单词或词形，例如 transition" autocomplete="off" aria-label="搜索词汇"><select id="statusFilter" aria-label="筛选状态"><option value="all">全部状态</option><option value="new">未判断</option><option value="known">认识</option><option value="unknown">需重练</option></select><select id="exampleFilter" aria-label="筛选真题例句"><option value="all">全部词条</option><option value="with">有真题例句</option></select><select id="meaningFilter" aria-label="筛选已填释义"><option value="all">全部释义状态</option><option value="with">有中文释义</option></select></div><div id="wordList" class="word-list"></div><div class="list-footer"><button id="moreButton" type="button" class="text-button">显示更多 ↓</button></div></section>
+      <section id="aboutPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">ABOUT THE DATA</p><h2>测试版包含什么</h2></div></div><div class="about-grid"><div><b>考纲词表</b><p>从 2016 版大纲提取带 ★ 的词条行。原表一行可能同时列出派生词或拼写变体，练习卡以该行首词为主词展示。</p></div><div><b>真题对应</b><p>已对 2026 年 6 月第一套的扫描页进行本地 OCR，并从原图核对了 18 条短例句。其余 OCR 候选未核对，不会显示为真题例句；目前不代表历年词频。</p></div><div><b>进度保存</b><p>只存于当前浏览器。可以导出 JSON 备份，换设备时导入；清除浏览器数据前请先备份。</p></div><div><b>释义</b><p>本版已收录 <span id="meaningCount">—</span> 条考纲主词的常见义，其中 18 条另标真题中实际词形的句中义。判断后显示释义；其余释义基于 <a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener noreferrer">ECDICT</a>（MIT）词典自动匹配，可能需要后续校对；词性采用 n.、v.、adj. 等缩写。</p></div></div><button id="importButton" class="outline-button" type="button">导入进度备份</button><input id="importFile" type="file" accept="application/json,.json" hidden></section>
     </main>
     <footer>六级词汇通关 · 测试版 <span>练习进度仅保存在当前浏览器</span></footer>
   </div>
   <script src="./data/vocab.js" defer></script>
-  <script src="./data/meanings.js" defer></script>
-  <script src="./app.js?v=20261120-meanings-preview2" defer></script>
+  <script src="./data/meanings.js?v=20261121-meanings-full" defer></script>
+  <script src="./app.js?v=20261121-meanings-full" defer></script>
 </body>
 </html>

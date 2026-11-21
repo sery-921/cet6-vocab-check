@@ -164,9 +164,9 @@ function renderLibrary() {
   const filter = $('statusFilter').value;
   const exampleOnly = $('exampleFilter').value === 'with';
   const meaningOnly = $('meaningFilter').value === 'with';
-  $('libraryTitle').textContent = exampleOnly ? '已核对的真题例句' : meaningOnly ? '词性与中文释义 · 试填' : '查找考纲词';
+  $('libraryTitle').textContent = exampleOnly ? '已核对的真题例句' : meaningOnly ? '词性与中文释义' : '查找考纲词';
   $('exampleContext').classList.toggle('hidden', !exampleOnly);
-  $('meaningContext').textContent = meaningOnly ? '这里直接展示已试填词义，不会改动你的认识／不认识记录。普通通关练习仍在判断后显示释义。' : '释义在判断后显示：有真题的词区分“常见义”和“本句义”；未填的词标注“释义待补充”。';
+  $('meaningContext').textContent = meaningOnly ? '这里直接展示已收录词义，不会改动你的认识／不认识记录。普通通关练习仍在判断后显示释义。' : '释义在判断后显示：有真题的词区分“常见义”和“本句义”；自动匹配释义可在后续校对。';
   const exampleFor = w => examples[w.head] || w.forms.map(f => examples[f]).find(Boolean);
   const matches = words.filter(w => (!q || w.forms.some(f => f.toLowerCase().includes(q))) && (filter === 'all' || statusOf(w) === filter) && (!exampleOnly || exampleFor(w)) && (!meaningOnly || meanings[w.head]));
   $('resultCount').textContent = `${matches.length} 条结果`;
