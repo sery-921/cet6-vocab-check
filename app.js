@@ -28,6 +28,31 @@ let current = null;
 let lastAction = null;
 let pageSize = 40;
 const $ = (id) => document.getElementById(id);
+const meanings = window.CET6_MEANINGS || {};
+const contextMeanings = window.CET6_CONTEXT_MEANINGS || {};
+
+function addMeaningLines(container, word) {
+  const basic = meanings[word.head];
+  const context = contextMeanings[word.head];
+  const line = document.createElement('p');
+  line.textContent = basic ? `常见义：${word.head} · ${basic.pos} · ${basic.zh}` : '释义待补充';
+  container.append(line);
+  if (context) {
+    const sentenceLine = document.createElement('p');
+    sentenceLine.textContent = `本句：${context.form} · ${context.pos} · ${context.zh}`;
+    container.append(sentenceLine);
+  }
+}
+
+function showReviewFeedback(word) {
+  const box = $('reviewFeedback');
+  box.replaceChildren();
+  const title = document.createElement('strong');
+  title.textContent = `刚判断：${word.head}`;
+  box.append(title);
+  addMeaningLines(box, word);
+  box.classList.remove('hidden');
+}
 
 function loadProgress() {
   try {
@@ -76,10 +101,11 @@ function nextWord() {
 }
 function judge(value) {
   if (!current) return;
-  lastAction = {word: current.head, previous: statusOf(current)};
+  const judged = current;
+  lastAction = {word: judged.head, previous: statusOf(judged)};
   try { localStorage.setItem(UNDO_KEY, JSON.stringify(lastAction)); } catch {}
-  progress[current.head] = value;
-  saveProgress(); updateStats(); nextWord(); updateUndoButton();
+  progress[judged.head] = value;
+  saveProgress(); updateStats(); nextWord(); showReviewFeedback(judged); updateUndoButton();
   if (activeTab === 'library') renderLibrary();
 }
 function updateUndoButton() { $('undoButton').disabled = !lastAction; }
@@ -89,6 +115,7 @@ function undoJudgment() {
   if (previous === 'new') delete progress[word]; else progress[word] = previous;
   lastAction = null;
   try { localStorage.removeItem(UNDO_KEY); } catch {}
+  $('reviewFeedback').classList.add('hidden');
   saveProgress(); updateStats(); nextWord(); updateUndoButton();
   if (activeTab === 'library') renderLibrary();
 }
@@ -108,6 +135,8 @@ function setTab(tab) {
 function openStatus(status) {
   $('searchInput').value = '';
   $('statusFilter').value = status;
+  $('exampleFilter').value = 'all';
+  $('meaningFilter').value = 'all';
   pageSize = 40;
   setTab('library');
   $('libraryPanel').scrollIntoView({behavior:'smooth', block:'start'});
@@ -116,6 +145,16 @@ function openExamples() {
   $('searchInput').value = '';
   $('statusFilter').value = 'all';
   $('exampleFilter').value = 'with';
+  $('meaningFilter').value = 'all';
+  pageSize = 40;
+  setTab('library');
+  $('libraryPanel').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function openMeanings() {
+  $('searchInput').value = '';
+  $('statusFilter').value = 'all';
+  $('exampleFilter').value = 'all';
+  $('meaningFilter').value = 'with';
   pageSize = 40;
   setTab('library');
   $('libraryPanel').scrollIntoView({behavior:'smooth', block:'start'});
@@ -124,10 +163,12 @@ function renderLibrary() {
   const q = $('searchInput').value.trim().toLowerCase();
   const filter = $('statusFilter').value;
   const exampleOnly = $('exampleFilter').value === 'with';
-  $('libraryTitle').textContent = exampleOnly ? '已核对的真题例句' : '查找考纲词';
+  const meaningOnly = $('meaningFilter').value === 'with';
+  $('libraryTitle').textContent = exampleOnly ? '已核对的真题例句' : meaningOnly ? '词性与中文释义 · 试填' : '查找考纲词';
   $('exampleContext').classList.toggle('hidden', !exampleOnly);
+  $('meaningContext').textContent = meaningOnly ? '这里直接展示已试填词义，不会改动你的认识／不认识记录。普通通关练习仍在判断后显示释义。' : '释义在判断后显示：有真题的词区分“常见义”和“本句义”；未填的词标注“释义待补充”。';
   const exampleFor = w => examples[w.head] || w.forms.map(f => examples[f]).find(Boolean);
-  const matches = words.filter(w => (!q || w.forms.some(f => f.toLowerCase().includes(q))) && (filter === 'all' || statusOf(w) === filter) && (!exampleOnly || exampleFor(w)));
+  const matches = words.filter(w => (!q || w.forms.some(f => f.toLowerCase().includes(q))) && (filter === 'all' || statusOf(w) === filter) && (!exampleOnly || exampleFor(w)) && (!meaningOnly || meanings[w.head]));
   $('resultCount').textContent = `${matches.length} 条结果`;
   const list = $('wordList'); list.replaceChildren();
   for (const w of matches.slice(0, pageSize)) {
@@ -139,6 +180,10 @@ function renderLibrary() {
     if (w.forms.length > 1) { const forms = document.createElement('p'); forms.textContent = w.forms.slice(1).join(' · '); item.append(forms); }
     const e = exampleFor(w);
     if (e) { const sample = document.createElement('p'); sample.className = 'sample'; sample.textContent = '真题：' + e.text; item.append(sample); const source = document.createElement('p'); source.className = 'sample-source'; source.textContent = e.source; item.append(source); }
+    if (statusOf(w) !== 'new' || meaningOnly) {
+      const meaningBox = document.createElement('div'); meaningBox.className = 'word-meaning';
+      addMeaningLines(meaningBox, w); item.append(meaningBox);
+    }
     const actions = document.createElement('div'); actions.className = 'item-actions';
     for (const [value, label] of [['known','改为认识'],['unknown','加入重练'],['new','重置']]) {
       const button = document.createElement('button'); button.type = 'button'; button.textContent = label;
@@ -179,6 +224,8 @@ async function init() {
   }
   const exampleFor = w => examples[w.head] || w.forms.map(f => examples[f]).find(Boolean);
   $('exampleCount').textContent = words.filter(exampleFor).length;
+  $('meaningCount').textContent = words.filter(w => meanings[w.head]).length;
+  $('heroMeaningCount').textContent = $('meaningCount').textContent;
   updateStats(); nextWord(); updateUndoButton();
   $('knownButton').addEventListener('click', () => judge('known'));
   $('unknownButton').addEventListener('click', () => judge('unknown'));
@@ -186,11 +233,13 @@ async function init() {
   $('knownStat').addEventListener('click', () => openStatus('known'));
   $('unknownStat').addEventListener('click', () => openStatus('unknown'));
   $('openExamplesButton').addEventListener('click', openExamples);
+  $('openMeaningsButton').addEventListener('click', openMeanings);
   document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
   document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => { mode = b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('active', x === b)); $('practiceTitle').textContent = mode === 'new' ? '今日继续' : '再练不认识的词'; nextWord(); }));
   $('searchInput').addEventListener('input', () => {pageSize = 40; renderLibrary();});
   $('statusFilter').addEventListener('change', () => {pageSize = 40; renderLibrary();});
   $('exampleFilter').addEventListener('change', () => {pageSize = 40; renderLibrary();});
+  $('meaningFilter').addEventListener('change', () => {pageSize = 40; renderLibrary();});
   $('moreButton').addEventListener('click', () => {pageSize += 40; renderLibrary();});
   $('backupButton').addEventListener('click', backup);
   $('importButton').addEventListener('click', () => $('importFile').click());
