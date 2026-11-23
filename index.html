@@ -3,53 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f5ef">
-  <title>六级词汇通关 · 测试版</title>
-  <link rel="stylesheet" href="./style.css?v=20261122-20-topics">
+  <title>六级词汇通关 · 聊天关卡</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./topics.css?v=20261123-repeat-state">
+  <script src="./topics.js" defer></script>
+  <script src="./progress.js" defer></script>
+  <script src="./topics-page.js?v=20261123-repeat-state" defer></script>
+  <script src="./play.js?v=20261123-repeat-state" defer></script>
 </head>
 <body>
-  <div class="shell">
+  <main id="topicsView" class="shell hidden">
+    <header class="topbar"><a href="../index.html" class="back">← 返回词汇通关</a><span class="badge">C6 / WORD CHAT</span></header>
+    <section class="intro"><p class="eyebrow">聊天关卡 · 话题列表</p><h1>选一个话题，<br>把词放进故事里。</h1><p>每关 8 个考纲词。先读聊天、点词看义，再做回忆和配对。话题练习记录保存在当前浏览器，可通过通关首页备份。</p></section>
+    <nav class="topic-summary" aria-label="按练习状态筛选话题"><button id="continueFilter" type="button" aria-pressed="false">继续练 <strong id="continueTotal">0</strong></button><button id="unplayedFilter" type="button" aria-pressed="false">未练过 <strong id="unplayedTotal">0</strong></button><button id="completedFilter" type="button" aria-pressed="false">已练过 <strong id="completedTotal">0</strong></button></nav>
+    <p class="demo-switch"><a id="demoToggle" href="./index.html?demo=1">查看分类示例</a><span id="demoNotice" class="hidden">这里展示模拟状态，不写入你的练习记录。</span></p>
+    <section id="continueSection" class="topic-section hidden"><h2>继续练 <small id="continueCount"></small></h2><div id="continueGrid" class="topic-grid"></div></section>
+    <section id="unplayedSection" class="topic-section hidden"><h2>未练过 <small id="unplayedCount"></small></h2><div id="unplayedGrid" class="topic-grid"></div></section>
+    <section id="completedSection" class="topic-section hidden"><h2>已练过 <small id="completedCount"></small></h2><div id="completedGrid" class="topic-grid"></div></section>
+    <footer>完成过的卡片再次点开只查看上次结果；点“再练一遍”才会开始新一轮。重练中的卡片会同时出现在“继续练”和“已练过”，并显示“重练中 · 曾完成”。</footer>
+  </main>
+  <main id="playView" class="shell hidden">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">C6</span><span>六级词汇通关 <small>PUBLIC BETA</small></span></div>
-      <div class="top-actions">
-        <details class="backup-help">
-          <summary>保存说明 <span aria-hidden="true">ⓘ</span></summary>
-          <div class="backup-help-content">
-            <strong>温馨提示</strong>
-            <p>每次判断都会自动保存在当前设备的当前浏览器中，无需手动存档，换 Wi-Fi 或移动数据也不影响已保存的记录。</p>
-            <p>但换浏览器或设备不会自动同步进度。另外，请使用普通浏览模式，即，不要选择<strong>无痕模式／隐私浏览模式</strong>。</p>
-            <p>词汇判断和聊天话题记录都会包含在备份中。换浏览器或设备时，在旧设备点击“备份进度”导出，再在新设备的“数据说明”中导入。</p>
-          </div>
-        </details>
-        <button id="backupButton" class="text-button" type="button">备份进度 ↗</button>
-      </div>
+      <a href="./index.html" class="back">← 所有聊天主题</a>
+      <span class="badge">C6 / WORD CHAT</span>
     </header>
-    <main>
-      <section class="hero">
-        <div><p class="eyebrow">CET-6 · 2016 考纲</p><h1>把不认识的词，<br><em>一遍遍找出来。</em></h1><p class="lede">先用最轻的方式过一遍带 ★ 的六级词。你判断认识与否，网站记住结果；不认识的词可以集中重练。</p><button id="openExamplesButton" class="examples-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">✦</span><span><strong>查看真题例句 · 已核对 <span id="exampleCount">—</span> 条</strong><small>2026 年 6 月第一套 · 查看原句与出处</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button><button id="openMeaningsButton" class="examples-entry meanings-entry" type="button"><span class="examples-entry-icon" aria-hidden="true">译</span><span><strong>查看词性与中文释义 · 已收录 <span id="heroMeaningCount">—</span> 条</strong><small>例如 detriment · n. · 损害；不影响筛词进度</small></span><span class="examples-entry-arrow" aria-hidden="true">→</span></button></div>
-        <div class="hero-side"><div class="hero-number" id="heroTotal">—</div><div>条带 ★ 词条</div><span class="hero-foot">来源：全国大学英语四、六级考试大纲（2016年修订版）</span></div>
-      </section>
-      <a class="chat-reentry" href="./chat-preview/index.html"><span class="chat-reentry-icon" aria-hidden="true">聊</span><span><strong>聊天关卡 · 二十个话题可选</strong><small>小组报告 / 校园展览 / 暑期申请 / 消息核实等 · 退出后随时从这里再进入</small></span></a>
-      <section class="stats" aria-label="学习进度">
-        <div><span>已判断</span><strong id="reviewedCount">0</strong></div><div><button id="knownStat" class="stat-inner" type="button" aria-label="查看认识的词"><span>认识 ↗</span><strong id="knownCount">0</strong></button></div><div><button id="unknownStat" class="stat-inner" type="button" aria-label="查看需重练的词"><span>需重练 ↗</span><strong id="unknownCount">0</strong></button></div><div class="progress-box"><span>通关进度</span><strong id="progressPercent">0%</strong><div class="track"><div id="progressFill"></div></div></div>
-      </section>
-      <nav class="tabs" aria-label="功能切换"><button class="active" data-tab="practice" type="button">通关练习</button><button data-tab="library" type="button">词库检索</button><button data-tab="about" type="button">数据说明</button></nav>
-      <section id="practicePanel" class="panel practice-panel">
-        <div class="panel-heading"><div><p class="eyebrow">PRACTICE</p><h2 id="practiceTitle">今日继续</h2></div><div class="mode-switch"><button data-mode="new" class="active" type="button">未判断</button><button data-mode="unknown" type="button">重练</button></div></div>
-        <div class="card" id="wordCard"><div class="card-top"><span id="cardMode">未判断</span><span id="cardIndex">—</span></div><div class="word" id="currentWord">载入中…</div><div id="wordForms" class="forms"></div><p class="self-check">先在心里说出含义或用法，再给自己判定。</p><div id="exampleBox" class="example hidden"></div><div class="card-actions"><button id="unknownButton" class="secondary" type="button">不认识 · 加入重练</button><button id="knownButton" class="primary" type="button">认识 · 下一词 →</button></div></div>
-        <div id="reviewFeedback" class="review-feedback hidden" role="status" aria-live="polite"></div>
-        <div class="practice-footer"><p class="hint">键盘：← 不认识　→ 认识。判断会自动保存在此浏览器；判断后显示刚才那个词的释义。</p><button id="undoButton" class="text-button" type="button" disabled>↶ 撤销上次判断</button></div>
-      </section>
-      <section id="libraryPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">LIBRARY</p><h2 id="libraryTitle">查找考纲词</h2></div><span id="resultCount" class="count-pill"></span></div><p id="exampleContext" class="example-context hidden">以下为 2026 年 6 月第一套中已核对的短例句，附原卷出处；目前不代表历年词频。</p><p id="meaningContext" class="meaning-context">释义在判断后显示：有真题的词区分“常见义”和“本句义”；自动匹配释义可在后续校对。</p><div class="search-row"><input id="searchInput" type="search" placeholder="输入英文单词或词形，例如 transition" autocomplete="off" aria-label="搜索词汇"><select id="statusFilter" aria-label="筛选状态"><option value="all">全部状态</option><option value="new">未判断</option><option value="known">认识</option><option value="unknown">需重练</option></select><select id="exampleFilter" aria-label="筛选真题例句"><option value="all">全部词条</option><option value="with">有真题例句</option></select><select id="meaningFilter" aria-label="筛选已填释义"><option value="all">全部释义状态</option><option value="with">有中文释义</option></select></div><div id="wordList" class="word-list"></div><div class="list-footer"><button id="moreButton" type="button" class="text-button">显示更多 ↓</button></div></section>
-      <section id="aboutPanel" class="panel hidden"><div class="panel-heading"><div><p class="eyebrow">ABOUT THE DATA</p><h2>测试版包含什么</h2></div></div><div class="about-grid"><div><b>考纲词表</b><p>从 2016 版大纲提取带 ★ 的词条行。原表一行可能同时列出派生词或拼写变体，练习卡以该行首词为主词展示。</p></div><div><b>真题对应</b><p>已对 2026 年 6 月第一套的扫描页进行本地 OCR，并从原图核对了 18 条短例句。其余 OCR 候选未核对，不会显示为真题例句；目前不代表历年词频。</p></div><div><b>进度保存</b><p>只存于当前浏览器。可以导出 JSON 备份，换设备时导入；清除浏览器数据前请先备份。</p></div><div><b>释义</b><p>本版已收录 <span id="meaningCount">—</span> 条考纲主词的常见义，其中 18 条另标真题中实际词形的句中义。判断后显示释义；其余释义基于 <a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener noreferrer">ECDICT</a>（MIT）词典自动匹配，可能需要后续校对；词性采用 n.、v.、adj. 等缩写。</p></div></div><button id="importButton" class="outline-button" type="button">导入进度备份</button><input id="importFile" type="file" accept="application/json,.json" hidden></section>
-    </main>
-    <footer>六级词汇通关 · 测试版 <span>练习进度仅保存在当前浏览器</span></footer>
-  </div>
-  <script src="./data/vocab.js" defer></script>
-  <script src="./data/meanings.js?v=20261122-20-topics" defer></script>
-  <script src="./chat-preview/topics.js" defer></script>
-  <script src="./chat-preview/progress.js" defer></script>
-  <script src="./app.js?v=20261122-20-topics" defer></script>
+    <section class="intro">
+      <p class="eyebrow">原创练习 · 聊天关卡</p>
+      <h1 id="topicTitle">聊天关卡</h1>
+      <p>先看聊天猜意思，再点词核对。读完后做两轮回忆。聊天是记忆情境，下方英文句子展示自然用法。</p>
+      <div class="stepbar" aria-label="练习步骤"><span class="active" data-step="0">聊天</span><span data-step="1">速查</span><span data-step="2">回忆</span><span data-step="3">配对</span></div>
+      <p id="saveNotice" class="hidden" role="alert"></p>
+    </section>
+    <section id="chatStep" class="stage">
+      <div class="phone">
+        <div class="phone-head"><span class="avatar" id="topicIcon">组</span><div><strong id="chatName">报告讨论组</strong><small id="chatSubtitle">3 位成员</small></div><span class="dots">•••</span></div>
+        <div class="chat-scroll" id="messages" aria-live="polite"></div>
+        <div class="phone-foot"><button id="nextMessage" class="primary">读下一条消息</button><span id="chatDone" class="hidden">对话已读完，点绿色单词可查看意思</span></div>
+      </div>
+      <aside class="side-card">
+        <p class="eyebrow">这关怎么练</p><h2>先理解情境</h2>
+        <p>中文聊天里嵌入英文词，是帮助联想的记忆方式。真实英语怎么说，点词后会给一条自然英文句子。</p>
+        <div class="meter"><span id="seenCount">已查看 0 个词</span><div><i id="seenBar"></i></div></div>
+        <button id="toLookup" class="primary">继续：词汇速查</button>
+      </aside>
+    </section>
+    <section id="lookupStep" class="stage single hidden"><div class="section-head"><div><p class="eyebrow">02 / 词汇速查</p><h2>刚才的词，再看一眼</h2></div><p>先回想，再点开核对。这里的中文是本段聊天的意思。</p></div><div id="lookupList" class="lookup-list"></div><button id="toRecall" class="primary next">继续：英文回忆</button></section>
+    <section id="recallStep" class="stage single hidden"><div class="section-head"><div><p class="eyebrow">03 / 英文 → 中文</p><h2>看到英文，你能想起来吗？</h2></div><p>先在心里说出意思，再翻卡并诚实选择。试玩结果不会修改通关记录。</p></div><div class="recall-card"><span id="recallProgress" class="eyebrow"></span><strong id="recallWord"></strong><button id="reveal" class="outline">显示本句义</button><p id="recallAnswer" class="answer hidden"></p><div id="recallChoices" class="choices hidden"><button data-grade="remembered">想起来了</button><button data-grade="hesitated">犹豫了</button><button data-grade="forgot">没想起来</button></div></div></section>
+    <section id="matchStep" class="stage single hidden"><div class="section-head"><div><p class="eyebrow">04 / 中英文配对</p><h2>把词与本句义连起来</h2></div><p>先点一个英文，再点对应中文。配错可以继续试。</p></div><p id="matchStatus" class="match-status" aria-live="polite"></p><div class="match-grid"><div id="englishList"></div><div id="chineseList"></div></div><div id="finish" class="finish hidden"><h3 id="finishTitle">这一关完成了</h3><p id="finishStats"></p><button id="restart" class="outline">再练一遍</button><a href="../index.html">返回词汇通关</a></div></section>
+    <footer>本关为原创练习，不是真题。聊天中的中英混合表达仅用于记忆；点击单词查看自然英文用法。<a href="../index.html">返回词汇通关</a></footer>
+  </main>
 </body>
 </html>
 
